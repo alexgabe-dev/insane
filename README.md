@@ -1,6 +1,6 @@
 # TurtleLogs Scraping
 
-Vibe project — A small browser-side script that pulls DPS rankings
+Vibe project - A small browser-side script that pulls DPS rankings
 from  [Turtle WoW Logs](https://www.turtlogs.com/pve/ranking), aggregates the data, and displays analytics and tier
 lists in a Chrome extension popup.
 
