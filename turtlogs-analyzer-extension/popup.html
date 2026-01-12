@@ -1,92 +1,214 @@
 <!doctype html>
 <html>
 <head>
-  <meta charset="utf-8" />
-  <title>TurtLogs – Tier List</title>
-<style>
-  :root{
-    --bg:#0f0f0f; --panel:#181818; --muted:#a1a1a1;
-    --S:#f59e0b; --A:#8b5cf6; --B:#60a5fa; --C:#10b981; --D:#ef4444;
-  }
+    <meta charset="utf-8"/>
+    <title>TurtLogs – Tier List</title>
+    <style>
+        :root {
+            --bg: #0f0f0f;
+            --panel: #181818;
+            --muted: #a1a1a1;
+            --S: #f59e0b;
+            --A: #8b5cf6;
+            --B: #60a5fa;
+            --C: #10b981;
+            --D: #ef4444;
+        }
 
-  /* popup frame */
-  html,body{
-    margin:0; padding:0; width:600px; height:600px;
-    overflow:hidden; background:var(--bg); color:#eee; font:11px system-ui, sans-serif;
-  }
-  header{ position:sticky; top:0; background:linear-gradient(#121212,#0f0f0f); border-bottom:1px solid #222; padding:10px; z-index:1; }
-  h1{ margin:0 0 6px; font-size:13px; }
-  .row{ display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
-  select,input,button{ background:#222; color:#eee; border:1px solid #333; border-radius:6px; padding:6px 8px; }
-  input[type=number]{ width:80px; }
-  .muted{ color:var(--muted); }
-  #content{ padding:10px; overflow:auto; height:calc(100% - 92px); }
+        /* popup frame */
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 600px;
+            height: 600px;
+            overflow: hidden;
+            background: var(--bg);
+            color: #eee;
+            font: 11px system-ui, sans-serif;
+        }
 
-  /* tiers layout (more compact) */
-  .tiers{ display:grid; gap:6px; }
-  .tier{ border-radius:8px; }
+        header {
+            position: sticky;
+            top: 0;
+            background: linear-gradient(#121212, #0f0f0f);
+            border-bottom: 1px solid #222;
+            padding: 10px;
+            z-index: 1;
+        }
 
-  /* collapsible block */
-  details.tier-details{
-    background:var(--panel); border:1px solid #2a2a2a; border-radius:8px;
-  }
-  details.tier-details > summary.th{
-    display:flex; align-items:center; gap:8px; padding:6px 8px; border-bottom:1px solid #222;
-    list-style:none; cursor:pointer; user-select:none;
-  }
-  details.tier-details > summary.th::-webkit-details-marker{ display:none; }
+        h1 {
+            margin: 0 0 6px;
+            font-size: 13px;
+        }
 
-  /* chevron */
-  details.tier-details > summary.th::after{
-    content:"›"; margin-left:auto; transform:rotate(0deg); transition:transform .15s ease; color:#aaa;
-  }
-  details.tier-details[open] > summary.th::after{ transform:rotate(90deg); }
+        .row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
 
-  .badge{ font-weight:600; width:18px; height:18px; border-radius:5px; display:grid; place-items:center; }
-  .S{ background:var(--S); color:#111;} .A{ background:var(--A);} .B{ background:var(--B);} .C{ background:var(--C);} .D{ background:var(--D);}
+        select, input, button {
+            background: #222;
+            color: #eee;
+            border: 1px solid #333;
+            border-radius: 6px;
+            padding: 6px 8px;
+        }
 
-  .wrap{ display:flex; flex-wrap:wrap; gap:4px; padding:6px 8px; }
-  .pill{ background:#1f2937; border:1px solid #334155; border-radius:999px; padding:4px 8px; display:flex; gap:6px; align-items:center; }
-  .pill b{ font-weight:500; }
-  .pill img.icon {
-  width: 18px;
-  height: 18px;
-  border-radius: 3px;
-  object-fit: cover;
-}
-  .right{ margin-left:auto; color:#cbd5e1; }
-</style>
+        input[type=number] {
+            width: 80px;
+        }
+
+        .muted {
+            color: var(--muted);
+        }
+
+        #content {
+            padding: 10px;
+            overflow: auto;
+            height: calc(100% - 92px);
+        }
+
+        /* tiers layout (more compact) */
+        .tiers {
+            display: grid;
+            gap: 6px;
+        }
+
+        .tier {
+            border-radius: 8px;
+        }
+
+        /* collapsible block */
+        details.tier-details {
+            background: var(--panel);
+            border: 1px solid #2a2a2a;
+            border-radius: 8px;
+        }
+
+        details.tier-details > summary.th {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 8px;
+            border-bottom: 1px solid #222;
+            list-style: none;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        details.tier-details > summary.th::-webkit-details-marker {
+            display: none;
+        }
+
+        /* chevron */
+        details.tier-details > summary.th::after {
+            content: "›";
+            margin-left: auto;
+            transform: rotate(0deg);
+            transition: transform .15s ease;
+            color: #aaa;
+        }
+
+        details.tier-details[open] > summary.th::after {
+            transform: rotate(90deg);
+        }
+
+        .badge {
+            font-weight: 600;
+            width: 18px;
+            height: 18px;
+            border-radius: 5px;
+            display: grid;
+            place-items: center;
+        }
+
+        .S {
+            background: var(--S);
+            color: #111;
+        }
+
+        .A {
+            background: var(--A);
+        }
+
+        .B {
+            background: var(--B);
+        }
+
+        .C {
+            background: var(--C);
+        }
+
+        .D {
+            background: var(--D);
+        }
+
+        .wrap {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            padding: 6px 8px;
+        }
+
+        .pill {
+            background: #1f2937;
+            border: 1px solid #334155;
+            border-radius: 999px;
+            padding: 4px 8px;
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .pill b {
+            font-weight: 500;
+        }
+
+        .pill img.icon {
+            width: 18px;
+            height: 18px;
+            border-radius: 3px;
+            object-fit: cover;
+        }
+
+        .right {
+            margin-left: auto;
+            color: #cbd5e1;
+        }
+    </style>
 
 </head>
 <body>
-  <header>
+<header>
     <h1>Tier List</h1>
     <div class="row" style="margin-bottom:6px">
-      <label>Percentile (%)
-        <input id="pct" type="number" min="1" max="100" value="50" title="Filter to top X%">
-      </label>
-      <label>Metric
-        <select id="metric">
-          <option value="pop" selected>Popularity</option>
-          <option value="avg">Throughput (Avg)</option>
-          <option value="med">Throughput (Med)</option>
-          <option value="combo">Combined</option>
-        </select>
-      </label>
-      <button id="run">Build</button>
+        <label>Percentile (%)
+            <input id="pct" type="number" min="1" max="100" value="50" title="Filter to top X%">
+        </label>
+        <label>Metric
+            <select id="metric">
+                <option value="pop" selected>Popularity</option>
+                <option value="avg">Throughput (Avg)</option>
+                <option value="med">Throughput (Med)</option>
+                <option value="combo">Combined</option>
+            </select>
+        </label>
+        <button id="run">Build</button>
     </div>
     <div class="row" id="comboBox" style="display:none">
-      <span class="muted">Combo weights:</span>
-      <label>Pop <input id="wPop" type="number" step="0.05" value="0.45"></label>
-      <label>Med <input id="wMed" type="number" step="0.05" value="0.55"></label>
+        <span class="muted">Combo weights:</span>
+        <label>Pop <input id="wPop" type="number" step="0.05" value="0.45"></label>
+        <label>Med <input id="wMed" type="number" step="0.05" value="0.55"></label>
     </div>
     <div class="hint muted" id="meta"></div>
-  </header>
+</header>
 
-  <div id="content">
+<div id="content">
     <div class="tiers" id="tiers"></div>
-  </div>
+</div>
 
-  <script src="popup.js"></script>
+<script src="popup.js"></script>
 </body>
 </html>

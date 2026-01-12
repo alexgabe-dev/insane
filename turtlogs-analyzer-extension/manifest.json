@@ -3,7 +3,10 @@
   "name": "TurtLogs Analyzer",
   "version": "1.1.1",
   "description": "Analytics overlay + popup output for turtlogs.com PvE rankings.",
-  "permissions": ["activeTab", "scripting"],
+  "permissions": [
+    "activeTab",
+    "scripting"
+  ],
   "host_permissions": [
     "https://turtlogs.com/*",
     "https://www.turtlogs.com/*"
@@ -18,7 +21,10 @@
         "https://turtlogs.com/*",
         "https://www.turtlogs.com/*"
       ],
-      "js": ["turtlogs_scraping.js", "bridge.js"],
+      "js": [
+        "turtlogs_scraping.js",
+        "bridge.js"
+      ],
       "run_at": "document_idle"
     }
   ]
