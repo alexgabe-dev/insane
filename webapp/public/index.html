@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="hu">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="INSANE guild TurtleLogs halál statisztika.">
+    <meta name="theme-color" content="#080b11">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="INSANE stats
+    <meta property="og:description" content="Raid logok alapján összesített halál statisztika játékosonként.">
+    <meta property="og:image" content="/thumbnail/thumb.png">
+    <meta property="og:image:alt" content="INSANE stats">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="INSANE stats
+    <meta name="twitter:description" content="Raid logok alapján összesített halál statisztika játékosonként.">
+    <meta name="twitter:image" content="/thumbnail/thumb.png">
+    <title>
+INSANE logok | insane.hu
+    </title>
+    <link rel="icon" type="image/x-icon" href="/favicons/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicons/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicons/android-chrome-512x512.png">
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+<main class="app">
+    <section class="hero card">
+        <p class="eyebrow">INSANE Guild Analytics</p>
+        <h1>Insane Halál Statisztika</h1>
+        <p class="hint">Raid logok alapján összesített halál statisztika játékosonként.</p>
+    </section>
+
+    <section class="card">
+        <div class="table-head">
+            <h2>Összesített Halál Rangsor</h2>
+            <div id="meta" class="meta"></div>
+        </div>
+        <div class="search-row">
+            <input id="playerSearchInput" type="text" placeholder="Játékos keresése név alapján...">
+        </div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                <tr>
+                    <th>Helyezés</th>
+                    <th>Név</th>
+                    <th>Halálok</th>
+                    <th>Logok</th>
+                    <th>Arány</th>
+                </tr>
+                </thead>
+                <tbody id="resultsBody">
+                <tr>
+                    <td colspan="5" class="empty">Nincs adat.</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <p id="status" class="status"></p>
+    </section>
+
+</main>
+<script src="./app.js"></script>
+</body>
+</html>

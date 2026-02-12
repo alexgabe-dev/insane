@@ -15,6 +15,10 @@ function normalize(arr) {
     return nums.map(v => (v - min) / (max - min));
 }
 
+function orient(normVals, lowerIsBetter) {
+    return lowerIsBetter ? normVals.map(v => 1 - v) : normVals;
+}
+
 // S 10% • A next 20% • B next 30% • C next 25% • D rest
 function toTier(i, total) {
     const q = (i + 1) / total;
@@ -71,6 +75,9 @@ async function runTier() {
 
     try {
         const data = await fetchData(pct);
+        const metricInfo = data.metric || {};
+        const lowerIsBetter = !!metricInfo.lowerIsBetter;
+        const sourceMetricName = metricInfo.name || 'Unknown metric';
         const specs = data.specs.slice();
 
         // 1) compute popularity ON EACH SPEC
@@ -88,17 +95,22 @@ async function runTier() {
         // 3) choose score
         let score;
         if (metric === 'pop') score = popN;
-        else if (metric === 'avg') score = avgN;
-        else if (metric === 'med') score = medN;
+        else if (metric === 'avg') score = orient(avgN, lowerIsBetter);
+        else if (metric === 'med') score = orient(medN, lowerIsBetter);
         else { // combo (pop + median by your weights)
-            const raw = withPop.map((_, i) => wPop * popN[i] + wMed * medN[i]);
+            const medOriented = orient(medN, lowerIsBetter);
+            const raw = withPop.map((_, i) => wPop * popN[i] + wMed * medOriented[i]);
             score = normalize(raw);
         }
 
         // 4) rank using the computed score
         const ranked = withPop
             .map((s, i) => ({...s, score: score[i]}))
-            .sort((a, b) => (b.score - a.score) || (b.median - a.median) || (b.avg - a.avg))
+            .sort((a, b) =>
+                (b.score - a.score) ||
+                (lowerIsBetter ? (a.median - b.median) : (b.median - a.median)) ||
+                (lowerIsBetter ? (a.avg - b.avg) : (b.avg - a.avg))
+            )
             .map((s, idx, arr) => ({...s, rank: idx + 1, tier: toTier(idx, arr.length)}));
 
         // 5) labels now read r.popularity (no index mismatch ever again)
@@ -112,8 +124,14 @@ async function runTier() {
         renderTiers(tiers, ranked, label);
 
         qs('#meta').textContent =
-            `sample=${data.sample}, threshold=${fmt(data.threshold)} • ranked ${ranked.length} specs by ` +
-            (metric === 'pop' ? 'Popularity' : metric === 'avg' ? 'Avg DPS' : metric === 'med' ? 'Median DPS' : `Combined (wPop=${wPop}, wMed=${wMed})`);
+            `source=${sourceMetricName} • sample=${data.sample}, threshold=${fmt(data.threshold)} • ranked ${ranked.length} specs by ` +
+            (metric === 'pop'
+                ? 'Popularity'
+                : metric === 'avg'
+                    ? `Avg value (${lowerIsBetter ? 'lower is better' : 'higher is better'})`
+                    : metric === 'med'
+                        ? `Median value (${lowerIsBetter ? 'lower is better' : 'higher is better'})`
+                        : `Combined (wPop=${wPop}, wMed=${wMed}, ${lowerIsBetter ? 'lower is better' : 'higher is better'})`);
     } catch (e) {
         qs('#meta').textContent = String(e.message || e);
         qs('#tiers').innerHTML = "";

@@ -133,6 +133,24 @@
         return rows;
     }
 
+    function getActiveMetric() {
+        const select =
+            document.querySelector('raidmeter#left_meter .title_bar select') ||
+            document.querySelector('raidmeter .title_bar select') ||
+            document.querySelector('.title_bar select');
+
+        if (!select) return {id: null, name: null, lowerIsBetter: false};
+
+        const option = select.options[select.selectedIndex];
+        const idRaw = option?.value ?? null;
+        const id = idRaw == null ? null : Number(idRaw);
+        const name = option?.textContent?.trim() || null;
+
+        // "Deaths" should rank lower as better in throughput-style metrics.
+        const lowerIsBetter = id === 11 || /\bdeaths?\b/i.test(name || "");
+        return {id, name, lowerIsBetter};
+    }
+
     function average(nums) {
         return nums.length ? nums.reduce((s, x) => s + x, 0) / nums.length : 0;
     }
@@ -420,6 +438,7 @@
 
     window.analyzeTurtLogs = function (opts = {}) {
         const {percentile = 1.0, render = true} = opts; // NEW: render flag
+        const metric = getActiveMetric();
         const rows = extractRows();
         if (!rows.length) {
             console.warn("No data found.");
@@ -444,6 +463,7 @@
 
         // NEW: build a clean payload for the popup
         const data = {
+            metric,
             sample: result.sampleSize,
             total: result.total,
             threshold: result.threshold,
